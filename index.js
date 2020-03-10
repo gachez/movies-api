@@ -1,0 +1,80 @@
+const express = require('express');
+const app = express();
+const Movie = require('./models/moviemodel')
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose')
+const cors = require('cors');
+const PORT = 4000;
+
+app.use(cors());
+app.use(bodyParser.json());
+
+mongoose.connect('mongodb+srv://dbUser:dbPassword@cluster0-cu3wb.gcp.mongodb.net/test?retryWrites=true&w=majority', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
+
+const connection = mongoose.connection;
+
+connection.once('open', () => {
+    console.log("Database connected succesfully")
+
+})
+
+const movieRoutes = express.Router();
+
+app.use('/movies', movieRoutes);
+
+//get all movies
+movieRoutes.route('/').get( (req,res) => {
+    Movie.find((err, movies) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.json(movies);
+        }
+    })
+});
+
+//post a movie
+movieRoutes.route('/add').post((req, res) =>{
+    let movie = new Movie(req.body);
+    movie.save()
+        .then(movie => {
+            res.status(200).json({'movie': 'movie/s added succesfully'});
+        })
+        .catch(err => {
+            res.status(400).send('adding new movie/s failed');
+        });
+})
+
+//update a movie
+movieRoutes.route('/update/:id').post((req, res) => {
+    Movie.findById(req.params._id, function(err, movie) {
+        if(!movie){
+            res.status(400).send("data not found");
+        }
+        movie.id = req.body.id;
+        movie.title = req.body.title;
+        movie.year = req.body.year;
+        movie.runtime = req.body.runtime;
+        movie.genres = req.body.genres;
+        movie.director = req.body.director;
+        movie.actors =  req.body.actors;
+        movie.plot = req.body.plot;
+        movie.posterUrl = req.body.posterUrl;
+
+        movie.save().then( movie => {
+            res.json('Movie updated!');
+        })
+        .catch(err => {
+            res.status(400).send("Update not completed due to an error")
+        })
+
+    })
+})
+
+
+app.listen(PORT, function() {
+    console.log(`Server is running on Port: ${PORT}`);
+});

@@ -4,12 +4,14 @@ const Movie = require('./models/moviemodel')
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose')
 const cors = require('cors');
-const PORT = 4000;
 
+require('dotenv').config()
+
+const PORT = process.env.PORT;
 app.use(cors());
 app.use(bodyParser.json());
 
-mongoose.connect('mongodb+srv://dbUser:dbPassword@cluster0-cu3wb.gcp.mongodb.net/test?retryWrites=true&w=majority', {
+mongoose.connect(process.env.DATABASE_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });

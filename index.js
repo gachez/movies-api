@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
-const Movie = require('./models/moviemodel')
+const Movie = require('./models/moviemodel');
+const ComingSoon = require('./models/comingSoonModel');
+const TvShow = require('./models/tvShowsModel');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose')
 const cors = require('cors');
@@ -36,6 +38,30 @@ movieRoutes.route('/').get( (req,res) => {
             res.json(movies);
         }
     })
+});
+
+//get coming soon movies
+movieRoutes.route('/comingsoon').get( (req, res) => {
+    ComingSoon.find((err, results) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.json(results);
+        }
+    }
+)});
+
+//get tv shows 
+movieRoutes.route('/tvshows').get( () => {
+    TvShow.find((err, results) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.json(results);
+        }
+    }
+
+    )
 });
 
 //post a movie

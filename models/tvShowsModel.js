@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-let Movie = new Schema({
+let TvShow = new Schema({
     title: String,
     genre: String,
     description: String,
@@ -10,4 +10,4 @@ let Movie = new Schema({
     trailer: String
 });
 
-module.exports = mongoose.model('Movie', Movie);
+module.exports = mongoose.model('TvShow', TvShow);

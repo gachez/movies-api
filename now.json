@@ -20,6 +20,16 @@
       "src": "/movies/add",
       "dest": "/index.js",
       "methods": ["POST"]
+    },
+    {
+      "src": "/movies/tvshows",
+      "dest": "/index.js",
+      "methods": ["GET"]
+    },
+    {
+      "src": "movies/comingsoon",
+      "dest": "/index.js",
+      "methods": ["GET"]
     }
   ],
   "env": {

@@ -52,7 +52,7 @@ movieRoutes.route('/comingsoon').get( (req, res) => {
 )});
 
 //get tv shows 
-movieRoutes.route('/tvshows').get( () => {
+movieRoutes.route('/tvshows').get( (req, res) => {
     TvShow.find((err, results) => {
         if (err) {
             console.log(err);
